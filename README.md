@@ -1,0 +1,1 @@
+C++ version of Head First Design Patterns
