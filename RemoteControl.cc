@@ -2,7 +2,7 @@
 #include <vector>
 #include <typeinfo>
 #include <string>
-
+#include <memory>
 using namespace std;
 
 class Command {
@@ -94,23 +94,19 @@ public:
 };
 
 int main() {
-    SimpleRemoteControl* remote = new SimpleRemoteControl;
+    unique_ptr<SimpleRemoteControl> remote (new SimpleRemoteControl);
     Light light;
     GarageDoor gdoor;
     
-    LightOnCommmand* lightOn = new LightOnCommmand(light);
-    GarageDoorOpenCommand* garageOpen = new GarageDoorOpenCommand(gdoor);
+    unique_ptr<LightOnCommmand> lightOn (new LightOnCommmand(light));
+    unique_ptr<GarageDoorOpenCommand> garageOpen (new GarageDoorOpenCommand(gdoor));
 
-    remote->setCommand(1, lightOn, lightOn);
+    remote->setCommand(1, lightOn.get(), lightOn.get());
     remote->onButtonWasPressed(1);
     remote->offButtonWasPressed(1);
     remote->undoButtonWasPressed();
-    remote->setCommand(2, garageOpen, garageOpen);
+    remote->setCommand(2, garageOpen.get(), garageOpen.get());
     remote->offButtonWasPressed(2);
-
     remote->toString();
-    delete remote;
-    delete lightOn;
-
     return 0;
 }
