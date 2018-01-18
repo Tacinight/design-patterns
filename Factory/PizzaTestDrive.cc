@@ -1,14 +1,17 @@
-#include "Pizza.h"
+#include "Pizza.cc"
 #include <iostream>
+#include <memory>
 using namespace std;
 int main() {
     PizzaStore *nyStore = new NYPizzaStore;
     PizzaStore *chicagoStore = new ChicagoPizzaStore;
 
-    Pizza *pizza = nyStore->orderPizza("cheese");
-    cout << "Ethan ordered a " + pizza->getName() << endl << endl;
+    unique_ptr<Pizza> cheesePizza (nyStore->orderPizza("cheese"));
+    cout << "Ethan ordered a " + cheesePizza->getName() << endl << endl;
 
-    pizza = chicagoStore->orderPizza("cheese");
-    cout << "Joel ordered a " + pizza->getName() << endl;
+    unique_ptr<Pizza> clamPizza (chicagoStore->orderPizza("clam"));
+    cout << "Joel ordered a " + clamPizza->getName() << endl;
+    
     return 0;
+
 }
