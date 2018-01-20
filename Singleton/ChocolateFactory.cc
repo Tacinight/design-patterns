@@ -17,23 +17,29 @@ public:
             uniqueInstance = new ChocolateBoiler;
         return uniqueInstance;
     }
+    
     void fill() {
         if (isEmpty()) {
             empty = false;
             boiled = false;
         }
     }
+
     void drain() {
         if (!isEmpty() && isBoiled()) {
             boiled = true;
         }
     }
-    bool isEmpty() {
-        return empty;
+
+    void boil() {
+        if (!isEmpty() && !isBoiled()) {
+            boiled = true;
+        }
     }
-    bool isBoiled() {
-        return boiled;
-    }
+
+    bool isEmpty() { return empty; }
+
+    bool isBoiled() { return boiled; }
 
 };
 
