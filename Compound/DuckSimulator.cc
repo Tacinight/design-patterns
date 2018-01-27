@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <vector>
 using namespace std;
 
 class Quackable {
@@ -93,24 +94,55 @@ public:
     }
 };
 
+class Flock : public Quackable {
+public:
+    void add(Quackable* quacker) {
+        quackers.push_back(quacker);
+    }
+
+    void quack() {
+        for (auto &pQuacker : quackers) {
+            pQuacker->quack();
+        }
+    }
+
+    void clear() { quackers.clear(); }
+    
+private:
+    vector<Quackable*> quackers;
+};
+
 int main() {
     unique_ptr<VirtualDuckFactory> duckFactory(new CountingDuckFactory);
-    unique_ptr<Quackable> mallardDuck(duckFactory->createMallardDuck());
-    unique_ptr<Quackable> redheadDuck(duckFactory->createRedheadDuck());
-    unique_ptr<Quackable> duckCall(duckFactory->createDuckCall());
-    unique_ptr<Quackable> rubberDuck(duckFactory->createRubberDuck());
-    unique_ptr<Quackable> gooseDuck(new GooseAdapter(new Goose));
 
-    cout << "Duck Simulator: with Decorator" << endl;
+    cout << "Duck Simulator: with Composite - Flocks" << endl;
 
-    simulate(mallardDuck.get());
-    simulate(redheadDuck.get());
-    simulate(duckCall.get());
-    simulate(rubberDuck.get());
-    simulate(gooseDuck.get());
+    Flock flockOfDucks;
+
+    flockOfDucks.add(duckFactory->createMallardDuck());
+    flockOfDucks.add(duckFactory->createRedheadDuck());
+    flockOfDucks.add(duckFactory->createDuckCall());
+    flockOfDucks.add(duckFactory->createRubberDuck());
+
+    Flock flockOfMallards;
+
+    flockOfMallards.add(duckFactory->createMallardDuck());
+    flockOfMallards.add(duckFactory->createMallardDuck());
+    flockOfMallards.add(duckFactory->createMallardDuck());
+    flockOfMallards.add(duckFactory->createMallardDuck());
+
+    flockOfDucks.add(&flockOfMallards);
+
+    cout << "\nDuck Simulator: whole Flock Simulation" << endl;
+    simulate(&flockOfDucks);
+
+    cout << "\nDuck Simulator: whole Flock Simulation" << endl;
+    simulate(&flockOfMallards);
 
     cout << "\nThe ducks quacked " + to_string(QuackCounter::getQuacks())
          << " times" << endl;
 
+    flockOfMallards.clear();
+    flockOfDucks.clear();
     return 0;
 }
