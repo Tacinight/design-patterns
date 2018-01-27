@@ -22,7 +22,7 @@ public:
     void quack() override { cout << "Kwak" << endl; }
 };
 
-class RebberDuck : public Quackable {
+class RubberDuck : public Quackable {
 public:
     void quack() override { cout << "Squeak" << endl; }
 };
@@ -61,11 +61,44 @@ void simulate(Quackable* duck) {
 
 int QuackCounter::numberOfQuacks = 0;
 
+class VirtualDuckFactory {
+public:
+    virtual Quackable* createMallardDuck() {};
+    virtual Quackable* createRedheadDuck() {};
+    virtual Quackable* createDuckCall() {};
+    virtual Quackable* createRubberDuck() {};
+};
+
+class DuckFactory : public VirtualDuckFactory {
+public:
+    Quackable* createMallardDuck() override { return new MallardDuck; }
+    Quackable* createRedheadDuck() override { return new RedheadDuck; }
+    Quackable* createDuckCall() override { return new DuckCall; }
+    Quackable* createRubberDuck() override { return new RubberDuck; }
+};
+
+class CountingDuckFactory : public VirtualDuckFactory {
+public:
+    Quackable* createMallardDuck() override { 
+        return new QuackCounter(new MallardDuck); 
+    }
+    Quackable* createRedheadDuck() override { 
+        return new QuackCounter(new RedheadDuck); 
+    }
+    Quackable* createDuckCall() override { 
+        return new QuackCounter(new DuckCall);
+    }
+    Quackable* createRubberDuck() override { 
+        return new QuackCounter(new RubberDuck);
+    }
+};
+
 int main() {
-    unique_ptr<Quackable> mallardDuck(new QuackCounter(new MallardDuck));
-    unique_ptr<Quackable> redheadDuck(new QuackCounter(new RedheadDuck));
-    unique_ptr<Quackable> duckCall(new QuackCounter(new DuckCall));
-    unique_ptr<Quackable> rebberDuck(new QuackCounter(new RebberDuck));
+    unique_ptr<VirtualDuckFactory> duckFactory(new CountingDuckFactory);
+    unique_ptr<Quackable> mallardDuck(duckFactory->createMallardDuck());
+    unique_ptr<Quackable> redheadDuck(duckFactory->createRedheadDuck());
+    unique_ptr<Quackable> duckCall(duckFactory->createDuckCall());
+    unique_ptr<Quackable> rubberDuck(duckFactory->createRubberDuck());
     unique_ptr<Quackable> gooseDuck(new GooseAdapter(new Goose));
 
     cout << "Duck Simulator: with Decorator" << endl;
@@ -73,7 +106,7 @@ int main() {
     simulate(mallardDuck.get());
     simulate(redheadDuck.get());
     simulate(duckCall.get());
-    simulate(rebberDuck.get());
+    simulate(rubberDuck.get());
     simulate(gooseDuck.get());
 
     cout << "\nThe ducks quacked " + to_string(QuackCounter::getQuacks())
