@@ -3,29 +3,154 @@
 #include <vector>
 using namespace std;
 
-class Quackable {
+class QuackObservable;
+
+class Observer {
 public:
-    virtual void quack() {}
+    virtual ~Observer() {};
+    virtual void update(QuackObservable* duck) {};
+};
+
+class QuackObservable {
+public:
+    virtual ~QuackObservable() {};
+    virtual void registerObserver(Observer* observer) {};
+    virtual void notifyObserver() {};
+    virtual string toString() { return ""; }
+};
+
+class Quackologist : public Observer {
+public:
+    void update(QuackObservable* duck) override {
+        cout << "Quackologist: " + duck->toString() + " just quacked" << endl;
+    }
+};
+
+
+
+class Quackable : public QuackObservable {
+public:
+    virtual ~Quackable() {};
+    virtual void quack() {};
+};
+
+class Observable : public QuackObservable {
+public:
+    Observable(QuackObservable* duck): duck(duck) {}
+
+    void registerObserver(Observer* observer) override {
+        observers.push_back(observer);
+    }
+
+    void notifyObserver() override {
+        for (auto &observer : observers) {
+            observer->update(duck);
+        }
+    }
+private:
+    vector<Observer*> observers;
+    QuackObservable* duck;
 };
 
 class MallardDuck : public Quackable {
 public:
-    void quack() override { cout << "Quack" << endl; }
+    MallardDuck() {
+        observable = new Observable(this);
+    }
+
+    void quack() override {
+        cout << "Quack" << endl;
+        notifyObserver();
+    }
+
+    string toString() override { return "Mallard Duck"; }
+
+    void registerObserver(Observer* observer) override {
+        observable->registerObserver(observer);
+    }
+
+    void notifyObserver() override {
+        observable->notifyObserver();
+    }
+
+private:
+    Observable* observable;
 };
 
 class RedheadDuck : public Quackable {
 public:
-    void quack() override { cout << "Quacl" << endl; }
+    RedheadDuck() {
+        observable = new Observable(this);
+    }
+
+    void quack() override { 
+        cout << "Quack" << endl;
+        notifyObserver(); 
+    }
+
+    string toString() override { return "Redhead Duck"; }
+
+    void registerObserver(Observer* observer) override {
+        observable->registerObserver(observer);
+    }
+
+    void notifyObserver() override {
+        observable->notifyObserver();
+    }
+
+private:
+    Observable* observable;
 };
 
 class DuckCall : public Quackable {
 public:
-    void quack() override { cout << "Kwak" << endl; }
+    DuckCall() {
+        observable = new Observable(this);
+    }
+
+    void quack() override { 
+        cout << "Kwak" << endl;
+        notifyObserver();
+    }
+
+    string toString() override { return "Duck Call"; }
+
+    void registerObserver(Observer* observer) override {
+        observable->registerObserver(observer);
+    }
+
+    void notifyObserver() override {
+        observable->notifyObserver();
+    }
+
+private:
+    Observable* observable;
 };
 
 class RubberDuck : public Quackable {
 public:
-    void quack() override { cout << "Squeak" << endl; }
+    RubberDuck() {
+        observable = new Observable(this);
+    }
+
+    void quack() override { 
+        cout << "Squeak" << endl;
+        notifyObserver();
+        
+    }
+
+    string toString() override { return "Rubber Duck"; }
+
+    void registerObserver(Observer* observer) override {
+        observable->registerObserver(observer); 
+    }
+
+    void notifyObserver() override {
+        observable->notifyObserver();
+    }
+
+private:
+    Observable* observable;
 };
 
 class Goose {
@@ -51,6 +176,15 @@ public:
     }
 
     static int getQuacks() { return numberOfQuacks; }
+
+    void registerObserver(Observer* observer) override {
+        duck->registerObserver(observer); 
+    }
+
+    void notifyObserver() override {
+        duck->notifyObserver();
+    }
+
 private:
     Quackable *duck;
     static int numberOfQuacks;
@@ -83,12 +217,15 @@ public:
     Quackable* createMallardDuck() override { 
         return new QuackCounter(new MallardDuck); 
     }
+
     Quackable* createRedheadDuck() override { 
         return new QuackCounter(new RedheadDuck); 
     }
+
     Quackable* createDuckCall() override { 
         return new QuackCounter(new DuckCall);
     }
+
     Quackable* createRubberDuck() override { 
         return new QuackCounter(new RubberDuck);
     }
@@ -100,9 +237,15 @@ public:
         quackers.push_back(quacker);
     }
 
-    void quack() {
-        for (auto &pQuacker : quackers) {
-            pQuacker->quack();
+    void quack() override {
+        for (auto &quacker : quackers) {
+            quacker->quack();
+        }
+    }
+
+    void registerObserver(Observer* observer) override {
+        for (auto &quacker: quackers) {
+            quacker->registerObserver(observer);
         }
     }
 
@@ -115,7 +258,7 @@ private:
 int main() {
     unique_ptr<VirtualDuckFactory> duckFactory(new CountingDuckFactory);
 
-    cout << "Duck Simulator: with Composite - Flocks" << endl;
+    cout << "Duck Simulator: with Observer" << endl;
 
     Flock flockOfDucks;
 
@@ -133,10 +276,13 @@ int main() {
 
     flockOfDucks.add(&flockOfMallards);
 
+    unique_ptr<Quackologist> quackologist(new Quackologist);
+    flockOfDucks.registerObserver(quackologist.get());
+
     cout << "\nDuck Simulator: whole Flock Simulation" << endl;
     simulate(&flockOfDucks);
 
-    cout << "\nDuck Simulator: whole Flock Simulation" << endl;
+    cout << "\nDuck Simulator: Mallardards Simulation" << endl;
     simulate(&flockOfMallards);
 
     cout << "\nThe ducks quacked " + to_string(QuackCounter::getQuacks())
