@@ -9,58 +9,44 @@ using namespace std;
 
 class Duck {
 public:
-    virtual void quack() {};
-    virtual void fly() {};
+    virtual void quack() const {};
+    virtual void fly() const {};
 };
 
 class MallardDuck : public Duck {
 public:
-    void quack() override {
-        cout << "Quack" << endl;
-    }
-
-    void fly() override {
-        cout << "I'm flying" << endl;
-    }
+    void quack() const override { cout << "Quack" << endl; }
+    void fly() const override { cout << "I'm flying" << endl; }
 };
 
 class Turkey {
 public:
-    virtual void gobble() {};
-    virtual void fly() {};
+    virtual void gobble() const {};
+    virtual void fly() const {};
 };
 
 class WildTurkey : public Turkey {
 public:
-    void gobble() override {
-        cout << "Gobble gobble" << endl;
-    }
-
-    void fly() override {
-        cout << "I'm flying a short distance" << endl;
-    }
+    void gobble() const override { cout << "Gobble gobble" << endl; }
+    void fly() const override { cout << "I'm flying a short distance" << endl; }
 };
 
 class TurkeyAdapter : public Duck {
 public:
-    TurkeyAdapter(Turkey* turkey) {
-        this->turkey =  turkey;
-    }
+    TurkeyAdapter(Turkey* turkey) { this->turkey =  turkey; }
+    void quack() const override { turkey->gobble(); }
 
-    void quack() override {
-        turkey->gobble();
-    }
-
-    void fly() override {
+    void fly() const override {
         for (int i = 0; i < 5; i++) {
             turkey->fly();
         }
     }
+    
 private:
     Turkey* turkey;
 };
 
-void testDuck(Duck* duck) {
+void testDuck(const Duck* duck) {
     duck->quack();
     duck->fly();
 }

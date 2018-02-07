@@ -9,40 +9,24 @@ using namespace std;
 
 class TheaterLight {
 public:
-    void on() {
-        cout << "Theater ceiling lights on" << endl;
-    }
-
+    void on() { cout << "Theater ceiling lights on" << endl; }
     void off();
-    void dim(int num) {
+    void dim(const int num) {
         cout << "Theater Ceiling lights dimming to" << to_string(num) << endl;
     }
 };
 
 class PopcornPopper {
 public:
-    void on() {
-        cout << "Popcorn Popper on" << endl;
-    }
-
-    void off() {
-        cout << "Popcorn Popper off" << endl;
-    }
-
-    void pop() {
-        cout << "Popcorn Popper popping popcorn" << endl;
-    }
+    void on() { cout << "Popcorn Popper on" << endl; }
+    void off() { cout << "Popcorn Popper off" << endl; }
+    void pop() { cout << "Popcorn Popper popping popcorn" << endl; }
 };
 
 class Screen {
 public:
-    void up(){
-        cout << "Theater screen going up" << endl;
-    }
-
-    void down() {
-        cout << "Theater screen going down" << endl;
-    }
+    void up(){ cout << "Theater screen going up" << endl; }
+    void down() { cout << "Theater screen going down" << endl; }
 };
 
 class Tuner;
@@ -51,27 +35,18 @@ class DvdPlayer;
 
 class Amplifier {
 public:
-    void on() {
-        cout << "Amplifier on" << endl;
-    }
-
-    void off() {
-        cout << "Amplifier off" << endl;
-    }
-
+    void on() { cout << "Amplifier on" << endl; }
+    void off() { cout << "Amplifier off" << endl; }
     void setCD();
-    void setDVD(DvdPlayer* dvd) {
-        cout << "Amplifier setting DVD Player" << endl;
+
+    void setDVD(DvdPlayer* dvd) { 
+        cout << "Amplifier setting DVD Player" << endl; 
     }
 
     void setStereoSound();
-
-    void setSurroundSound() {
-        cout << "Amplifier surround sound on" << endl;
-    }
-
+    void setSurroundSound() { cout << "Amplifier surround sound on" << endl; }
     void setTuner();
-    void setVolume(int num) {
+    void setVolume(const int num) {
         cout << "Amplifier setting volumn to" << to_string(5) << endl;
     }
 private:
@@ -105,46 +80,24 @@ private:
 
 class DvdPlayer {
 public:
-    void on() {
-        cout << "DVD Player on" << endl;
-    }
-
-    void off() {
-        cout << "DVD Player off" << endl;
-    }
-    void ejcet() {
-        cout << "DVD Player eject" << endl;
-    }
+    void on() { cout << "DVD Player on" << endl; }
+    void off() { cout << "DVD Player off" << endl; }
+    void ejcet() { cout << "DVD Player eject" << endl; }
     void pause();
-
-    void play(string movie) {
-        cout << "DVD Player playing " << movie << endl;
-    }
-
+    void play(string movie) { cout << "DVD Player playing " << movie << endl; }
     void setStereoSound();
     void setTwoChannelAudio();
-
-    void stop() {
-        cout << "DVD Player stopped" << endl;
-    }
+    void stop() { cout << "DVD Player stopped" << endl; }
 private:
     Amplifier* amplifier;
 };
 
 class Projecter {
 public:
-    void on() {
-        cout << "Projector on" << endl;
-    }
-    
-    void off() {
-        cout << "Projector off" << endl;
-    }
+    void on() { cout << "Projector on" << endl; }
+    void off() { cout << "Projector off" << endl; }
     void tvMode();
-
-    void wideScreenMode() {
-        cout << "Projector in widescreen mode" << endl;
-    }
+    void wideScreenMode() { cout << "Projector in widescreen mode" << endl; }
 private:
     DvdPlayer* dvdPlayer;
 };
@@ -215,7 +168,8 @@ int main() {
     Screen screen;
     PopcornPopper popper;
 
-    HomeTheaterFacade homeTheater(&amp, &tuner, &dvd, &cd, &proj, &screen, &lights, &popper);
+    HomeTheaterFacade homeTheater(&amp, &tuner, &dvd, &cd, &proj,
+                                  &screen, &lights, &popper);
 
     homeTheater.watchMovie("Raiders of the Lost Ark");
     homeTheater.endMovie();
