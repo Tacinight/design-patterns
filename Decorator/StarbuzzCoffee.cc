@@ -1,3 +1,9 @@
+/* Decorator
+ * Attach additional responsibilities to an object dynamically.
+ * Decorators provides a flexible alternative to subclassing
+ * for extending functionality.
+ */ 
+
 #include "Starbuzz.h"
 #include <iostream>
 using namespace std;

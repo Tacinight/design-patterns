@@ -1,3 +1,7 @@
+/* The Compound Pattern
+ * combine two or more patterns into a solution that
+ * sloves a recurring or general problem.
+ */ 
 #include <iostream>
 #include <memory>
 #include <vector>
