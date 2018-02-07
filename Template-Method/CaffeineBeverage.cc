@@ -18,8 +18,8 @@ public:
         addCondiments();
     }
 
-    virtual void brew() {};
-    virtual void addCondiments() {};
+    virtual void brew() = 0;
+    virtual void addCondiments() = 0;
 
     void boilWater() { cout << "Boil the water" << endl; }
     void pourInCup() { cout << "Pouring into cup" << endl; }

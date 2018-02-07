@@ -24,6 +24,7 @@ public:
     void dispense() override {
         cout << "You need to pay first" << endl;
     }
+
 private:
     GumballMachine* pMachine;
 };
@@ -49,6 +50,7 @@ public:
     void dispense() override {
         cout << "No gunball dispensed" << endl;
     }
+
 private:
     GumballMachine* pMachine;
 };
@@ -78,6 +80,7 @@ public:
             pMachine->setState(pMachine->getSoldState());
         }
     }
+
 private:
     GumballMachine* pMachine;
 };
@@ -101,10 +104,10 @@ public:
     void dispense() override {
         cout << "No gumball dispensed" << endl;
     }
+
 private:
     GumballMachine* pMachine;
 };
-
 
 GumballMachine::GumballMachine(int numberGumballs) {
     soldOutState = new SoldOutState(this);

@@ -12,6 +12,7 @@ protected:
     FlyBehavior* flyBehavior;
     QuackBehavior* quackBehavior;
 public:
+    virtual ~Duck() {};
     virtual void display() = 0;
     void performFly();
     void performQuack();

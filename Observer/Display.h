@@ -13,8 +13,8 @@ private:
 public:
     CurrentConditionDisplay() = default;
     CurrentConditionDisplay(Subject*);
-    void update(double temperature, double humidity, double pressure);
-    virtual void display();
+    void update(double temperature, double humidity, double pressure) override;
+    void display() override;
 };
 
 #endif

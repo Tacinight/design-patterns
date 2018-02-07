@@ -5,7 +5,7 @@
 
 class Squeak : public QuackBehavior {
 public:
-    void quack();
+    void quack() override;
 };
 
 #endif

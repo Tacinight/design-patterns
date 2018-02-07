@@ -1,11 +1,11 @@
-#ifndef _QUACKBEHAVIOR_H
-#define _QUACKBEHAVIOR_H
+#ifndef _MUTAQUACK_H
+#define _MUTAQUACK_H
 
 #include "QuackBehavior.h"
 
 class MuteQuack : public QuackBehavior {
 public:
-    void quack();
+    void quack() override;
 };
 
 #endif

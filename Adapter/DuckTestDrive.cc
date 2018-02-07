@@ -9,8 +9,8 @@ using namespace std;
 
 class Duck {
 public:
-    virtual void quack() const {};
-    virtual void fly() const {};
+    virtual void quack() const = 0 ;
+    virtual void fly() const = 0;
 };
 
 class MallardDuck : public Duck {
@@ -21,8 +21,8 @@ public:
 
 class Turkey {
 public:
-    virtual void gobble() const {};
-    virtual void fly() const {};
+    virtual void gobble() const = 0;
+    virtual void fly() const = 0;
 };
 
 class WildTurkey : public Turkey {
@@ -41,7 +41,7 @@ public:
             turkey->fly();
         }
     }
-    
+
 private:
     Turkey* turkey;
 };

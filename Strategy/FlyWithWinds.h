@@ -5,7 +5,7 @@
 
 class FlyWithWinds : public FlyBehavior {
 public:
-    void fly();
+    void fly() override;
 };
 
 #endif

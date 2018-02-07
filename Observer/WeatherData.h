@@ -14,9 +14,9 @@ private:
     double pressure;
 public:
     WeatherData() {};
-    void registerObserver(Observer*);
-    void removeObserver(Observer*);
-    void notifyObserver();
+    void registerObserver(Observer*) override;
+    void removeObserver(Observer*) override;
+    void notifyObserver() override;
     void measurementsChanged();
     void setMeasurements(double, double, double);
 };

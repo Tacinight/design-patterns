@@ -1,8 +1,8 @@
 CXX = g++
-CXXFLAGS = -Wall -g 
+CXXFLAGS = -Wall -g -std=c++11 
 
 MiniDuckSimulator: Duck.o FlyNoWay.o FlyWithWinds.o MiniDuckSimulator.o MallardDuck.o ModelDuck.o FlyRocketPowered.o Quack.o
-	$(CXX) $(CXXFLAGS) -o MiniDuckSimulator Duck.o FlyNoWay.o FlyWithWinds.o MiniDuckSimulator.o MallardDuck.o ModelDuck.o FlyRocketPowered.o Quack.o
+	$(CXX) $(CXXFLAGS) -o MiniDuckSimulator.out Duck.o FlyNoWay.o FlyWithWinds.o MiniDuckSimulator.o MallardDuck.o ModelDuck.o FlyRocketPowered.o Quack.o
 
 MiniDuckSimulator.o: ModelDuck.h MallardDuck.h FlyRocketPowered.h
 

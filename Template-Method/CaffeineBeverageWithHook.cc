@@ -15,8 +15,8 @@ public:
         }
     }
 
-    virtual void brew() {};
-    virtual void addCondiments() {};
+    virtual void brew() = 0;
+    virtual void addCondiments() = 0;
     virtual bool customerWantsCondiments() { return true; }
 
     void boilWater() { cout << "Boil the water" << endl; }

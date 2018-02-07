@@ -8,12 +8,14 @@ using namespace std;
 
 class State {
 public:
-    ~State() {};
-    virtual void insertQuarter() {};
-    virtual void ejectQuarter() {};
-    virtual void turnCrank() {};
-    virtual void dispense() {};
+    virtual ~State() = 0;
+    virtual void insertQuarter() = 0;
+    virtual void ejectQuarter() = 0;
+    virtual void turnCrank() = 0;
+    virtual void dispense() = 0;
 };
+
+State::~State() {};
 
 class GumballMachine {
 public:

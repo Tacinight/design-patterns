@@ -8,7 +8,7 @@
 class MallardDuck : public Duck {
 public:
     MallardDuck();
-    void display();
+    void display() override;
 };
 
 #endif

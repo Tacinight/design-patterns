@@ -8,7 +8,7 @@
 class ModelDuck : public Duck {
 public:
     ModelDuck();
-    void display();
+    void display() override;
 };
 
 #endif

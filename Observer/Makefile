@@ -2,7 +2,7 @@ CXX = g++
 CXXFLAGS = -Wall -g -std=c++11 
 
 WeatherStation: WeatherStation.o Display.o WeatherData.o
-	$(CXX) $(CXXFLAGS) -o WeatherStation WeatherStation.o Display.o WeatherData.o
+	$(CXX) $(CXXFLAGS) -o WeatherStation.out WeatherStation.o Display.o WeatherData.o
 
 WeatherStation.o: Display.h WeatherData.h
 

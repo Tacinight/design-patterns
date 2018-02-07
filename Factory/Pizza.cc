@@ -41,7 +41,7 @@ public:
         cout << "Cutting the pizza into diagonal slices" << endl;
     }
     void box() { cout << "Place pizza in official PizzaStore box" << endl; }
-    string getName() { return name; }
+    const string getName() { return name; }
 
 protected:
     PizzaIngredientFactory* ingredientFactory;
@@ -68,7 +68,7 @@ public:
         clam = ingredientFactory->createClam();
         cout << "Adding " + clam << endl;
     }
-    void cut() { cout << "Cutting the Pizza into square slices" << endl; }
+    void cut() override { cout << "Cutting the Pizza into square slices" << endl; }
 };
 
 class PizzaStore {
